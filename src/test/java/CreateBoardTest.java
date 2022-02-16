@@ -16,7 +16,7 @@ public class CreateBoardTest {
     public void createBoard() {
         board = new BoardEntity();
 
-        board.postCreateBoard(new PostCreateBoard("TestBoard"));
+        board.postCreateBoardRequest(new PostCreateBoard("TestBoard"));
         board.getBoardValidator().boardHasId(0);
         id = board.getBoards().get(0).getId();
 
@@ -26,7 +26,7 @@ public class CreateBoardTest {
 
     @AfterTest
     public void cleanData() {
-        Response response = board.deleteBoard(new DeleteBoard(id));
+        Response response = board.deleteBoardRequest(new DeleteBoard(id));
         System.out.println("Status code: " + response.statusCode());
         Assert.assertEquals(response.statusCode(), 200);
 

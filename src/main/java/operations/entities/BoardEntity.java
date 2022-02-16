@@ -35,12 +35,12 @@ public class BoardEntity {
         boardValidator.setBoards(boards);
     }
 
-    public void postCreateBoard(PostCreateBoard postCreateBoard) {
+    public void postCreateBoardRequest(PostCreateBoard postCreateBoard) {
         boards.add(postCreateBoard.postCreateBoard());
         System.out.println(boards.toString());
     }
 
-    public Response deleteBoard(DeleteBoard deleteBoard) {
+    public Response deleteBoardRequest(DeleteBoard deleteBoard) {
         return deleteBoard.deleteBoard();
     }
 
