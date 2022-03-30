@@ -1,38 +1,47 @@
 import io.restassured.response.Response;
+import models.Board;
 import operations.entities.BoardEntity;
 import operations.requests.DeleteBoard;
 import operations.requests.GetBoards;
 import operations.requests.PostCreateBoard;
+import operations.validators.BoardValidator;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 public class CreateBoardTest {
 
-    public String id;
-    public BoardEntity board;
+    public BoardEntity boardEntity;
+    public Board createdBoard;
+    public List<Board> boardsList;
+    public BoardValidator boardValidator= new BoardValidator();
+
 
     @Test
     public void createBoard() {
-        board = new BoardEntity();
+        boardEntity = new BoardEntity();
 
-        board.postCreateBoardRequest(new PostCreateBoard("TestBoard"));
-        board.getBoardValidator().boardHasId(0);
-        id = board.getBoards().get(0).getId();
+        createdBoard = boardEntity.postCreateBoardRequest(new PostCreateBoard("TestBoard"));
+        Assert.assertEquals(boardEntity.getRawResponse().statusCode(), 200);
 
-        board.getBoardsRequest(new GetBoards("name,url"));
-        board.getBoardValidator().containsBoardName("TestBoard");
+        boardsList = boardEntity.getBoardsRequest(new GetBoards("name,url"));
+        Assert.assertEquals(boardEntity.getRawResponse().statusCode(), 200);
+
+        boardValidator.setBoardsList(boardsList);
+        boardValidator.containBoardName(createdBoard.getName());
     }
 
     @AfterTest
     public void cleanData() {
-        Response response = board.deleteBoardRequest(new DeleteBoard(id));
-        System.out.println("Status code: " + response.statusCode());
+        boardEntity = new BoardEntity();
+        Response response = boardEntity.deleteBoardRequest(new DeleteBoard(createdBoard.getId()));
         Assert.assertEquals(response.statusCode(), 200);
 
-        board.getBoardsRequest(new GetBoards("name,url"));
-        board.getBoardValidator().notContainsName("TestBoard");
-
+        boardsList = boardEntity.getBoardsRequest(new GetBoards("name,url"));
+        boardValidator.setBoardsList(boardsList);
+        boardValidator.notContainBoardName(createdBoard.getName());
     }
 
 }

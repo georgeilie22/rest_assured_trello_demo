@@ -29,6 +29,6 @@ public class DeleteBoard {
                 queryParam("key", CredentialsDTO.getKey()).
                 queryParam("token", CredentialsDTO.getToken()).
                 when().
-                delete("https://api.trello.com/1/boards/{boardId}").then().extract().response();
+                delete("https://api.trello.com/1/boards/{boardId}");
     }
 }

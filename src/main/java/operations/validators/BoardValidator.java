@@ -7,22 +7,18 @@ import java.util.List;
 
 public class BoardValidator {
 
-    private List<Board> boards;
+    private List<Board> boardsList;
 
     public BoardValidator() {
     }
 
-    public void setBoards(List<Board> boards) {
-        this.boards = boards;
+    public void setBoardsList(List<Board> boardsList) {
+        this.boardsList = boardsList;
     }
 
-    public void boardNameIs(String expectedValue, int boardIndex) {
-        Assert.assertEquals(boards.get(boardIndex).getName(), expectedValue);
-    }
-
-    public void containsBoardName(String expectedValue) {
+    public void containBoardName(String expectedValue) {
         boolean temp = false;
-        for (Board board : boards) {
+        for (Board board : boardsList) {
             if (board.getName().equals(expectedValue)) {
                 temp = true;
                 break;
@@ -31,13 +27,9 @@ public class BoardValidator {
         Assert.assertTrue(temp, "Could not find the expected value: " + expectedValue);
     }
 
-    public void boardHasId(int boardIndex) {
-        Assert.assertNotNull(boards.get(boardIndex).getId());
-    }
-
-    public void notContainsName(String name) {
-        for (Board board : boards) {
-            Assert.assertNotEquals(board.getName(), name);
+    public void notContainBoardName(String name) {
+        for (Board board : boardsList) {
+            Assert.assertNotEquals(board.getName(), name,"The list of boards still containg a board with the following name: "+name);
         }
     }
 }

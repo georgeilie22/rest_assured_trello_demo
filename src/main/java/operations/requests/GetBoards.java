@@ -1,7 +1,7 @@
 package operations.requests;
 
 import io.restassured.http.ContentType;
-import models.Board;
+import io.restassured.response.Response;
 import utils.CredentialsDTO;
 
 import static io.restassured.RestAssured.given;
@@ -22,14 +22,14 @@ public class GetBoards {
         this.fields = fields;
     }
 
-    public Board[] getBoardsRequest() {
+    public Response getBoardsRequest() {
         return given().
                 contentType(ContentType.JSON).
                 queryParam("key", CredentialsDTO.getKey()).
                 queryParam("token", CredentialsDTO.getToken()).
                 queryParam("fields", fields).
                 when().
-                get("https://api.trello.com/1/members/me/boards").as(Board[].class);
+                get("https://api.trello.com/1/members/me/boards");
     }
 
 }

@@ -5,43 +5,37 @@ import models.Board;
 import operations.requests.DeleteBoard;
 import operations.requests.GetBoards;
 import operations.requests.PostCreateBoard;
-import operations.validators.BoardValidator;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class BoardEntity {
 
-    private List<Board> boards = new ArrayList<>();
-    private final BoardValidator boardValidator = new BoardValidator();
+    private Response response;
 
     public BoardEntity() {
     }
 
-    public List<Board> getBoards() {
-        return boards;
+    public Response getRawResponse() {
+        return response;
     }
 
-    public BoardValidator getBoardValidator() {
-        boardValidator.setBoards(boards);
-        return boardValidator;
+    public List<Board> getBoardsRequest(GetBoards getBoards) {
+        response = getBoards.getBoardsRequest();
+
+        return Arrays.asList(response.as(Board[].class));
     }
 
-    public void getBoardsRequest(GetBoards getBoards) {
-        Board[] tempBoards = getBoards.getBoardsRequest();
-        boards = Arrays.asList(tempBoards);
-        System.out.println(boards.toString());
-        boardValidator.setBoards(boards);
-    }
+    public Board postCreateBoardRequest(PostCreateBoard postCreateBoard) {
+        response = postCreateBoard.postCreateBoard();
 
-    public void postCreateBoardRequest(PostCreateBoard postCreateBoard) {
-        boards.add(postCreateBoard.postCreateBoard());
-        System.out.println(boards.toString());
+        return response.as(Board.class);
     }
 
     public Response deleteBoardRequest(DeleteBoard deleteBoard) {
-        return deleteBoard.deleteBoard();
+        response = deleteBoard.deleteBoard();
+
+        return response;
     }
 
 }
