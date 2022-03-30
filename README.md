@@ -4,7 +4,7 @@ This is a short demo of automating a Trello flow with the help of APIs, automate
 ## Authentication
 Make sure you create a credentials.properties file in src/main/resources with the key and token that are passed as query parameters in each request.
 
-[Get Trello key/token](https://trello.com/app-key)
+[Get Trello key/token](https://trello.com/app-key) (You might have to login before accessing the link)
 
 [Trello Rest APIs](https://developer.atlassian.com/cloud/trello/rest/api-group-actions/)
 
