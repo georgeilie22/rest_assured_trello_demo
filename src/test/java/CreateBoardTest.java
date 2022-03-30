@@ -16,7 +16,6 @@ public class CreateBoardTest {
     public BoardEntity boardEntity;
     public Board createdBoard;
     public List<Board> boardsList;
-    public BoardValidator boardValidator= new BoardValidator();
 
 
     @Test
@@ -29,8 +28,7 @@ public class CreateBoardTest {
         boardsList = boardEntity.getBoardsRequest(new GetBoards("name,url"));
         Assert.assertEquals(boardEntity.getRawResponse().statusCode(), 200);
 
-        boardValidator.setBoardsList(boardsList);
-        boardValidator.containBoardName(createdBoard.getName());
+        BoardValidator.listContainsName(boardsList, createdBoard.getName());
     }
 
     @AfterTest
@@ -40,8 +38,7 @@ public class CreateBoardTest {
         Assert.assertEquals(response.statusCode(), 200);
 
         boardsList = boardEntity.getBoardsRequest(new GetBoards("name,url"));
-        boardValidator.setBoardsList(boardsList);
-        boardValidator.notContainBoardName(createdBoard.getName());
+        BoardValidator.listNotContainsName(boardsList, createdBoard.getName());
     }
 
 }
